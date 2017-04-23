@@ -31,6 +31,8 @@ class GenJSON(object):
 
         if names is None:
             names = os.listdir("./Train/")
+        if ".gitignore" in names:
+            names.remove(".gitignore")
 
         if parellel is True:
             mpq = Queue()

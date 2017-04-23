@@ -14,7 +14,7 @@ import os
 
 #######################################################################################################
 #Uncomment below to genSpots
-Utilities.genSpots(reset=True, parellel=True)
+#Utilities.genSpots(reset=True, parellel=True)
 
 ############################################################################################
 ##I beleive the parameter in there current setting will work well for all Images but this Function will
@@ -26,7 +26,7 @@ Utilities.genSpots(reset=True, parellel=True)
 ## and adjust some stuff before moving on.
 ################################################################################################
 #Uncomment to check location json
-Utilities.checkLocJson()
+#Utilities.checkLocJson()
 
 ###############################################################################################################
 ##STAGE 2: Generate Color Classifier I have set it to use Logitsic Regression and can change pretty easy to anything esle 
@@ -77,7 +77,7 @@ else:
 ####################################################################################################
 
 #Uncomment to gen json with all the boundi
-#Utilities.genjson(parellel=True, cropParam=60, colorClassifier=CC)
+Utilities.genjson(parellel=True, cropParam=60, colorClassifier=CC)
 
 
 ###############################################################################3

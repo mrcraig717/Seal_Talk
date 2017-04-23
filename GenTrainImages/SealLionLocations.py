@@ -25,7 +25,9 @@ class Spots:
 
     def run(self):
         names = os.listdir("./Train/")
-        if self.reset is False:
+	if ".gitignore" in names:
+            names.remove(".gitignore")
+	if self.reset is False:
             nextnames = []
             for name in names:
                 if name in self.jsonL.keys():
