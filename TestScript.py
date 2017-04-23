@@ -71,7 +71,7 @@ else:
 #   parellel: True, False if you want it so spawn off 4 processes we can change this to 8 if the server can handle it
 #	cropParam = int  Set the bound on the Max size of the boxes generated 60 would max the box size at 121 X 121 which
 #                           is much larger then any Sea Lion in the Training Images
-#   colorClassifier: If none uses color gradient (doesn't work well with our immges), else color classifier 
+#   colorClassifier: If none uses color gradient (doesn't work well with our images), else color classifier 
 #							must be an object with predict function returning 1.0, or 0.0
 #                           WE can change this but thats what I have been doing so far to generate the bounding Boxes  
 ####################################################################################################
