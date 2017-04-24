@@ -14,7 +14,7 @@ import os
 
 #######################################################################################################
 #Uncomment below to genSpots
-#Utilities.genSpots(reset=True, parellel=True)
+Utilities.genSpots(reset=True, parellel=True)
 
 ############################################################################################
 ##I beleive the parameter in there current setting will work well for all Images but this Function will
@@ -26,7 +26,7 @@ import os
 ## and adjust some stuff before moving on.
 ################################################################################################
 #Uncomment to check location json
-#Utilities.checkLocJson()
+Utilities.checkLocJson()
 
 ###############################################################################################################
 ##STAGE 2: Generate Color Classifier I have set it to use Logitsic Regression and can change pretty easy to anything esle 
@@ -49,7 +49,7 @@ import os
 
 
 ##Uncomment to generate new classifier
-#Utilities.gencolorclassifier(parellel=True, cropParam=3, sizeParam=100)
+Utilities.gencolorclassifier(parellel=True, cropParam=3, sizeParam=100)
 
 ###############################################################################################################
 # Load the Color Classifier
@@ -88,6 +88,6 @@ Utilities.genjson(parellel=True, cropParam=60, colorClassifier=CC)
 
 # Params File name
 
-#Utilities.genBoxedImage("44.jpg")
+Utilities.genBoxedImage("44.jpg")
 
 

@@ -27,6 +27,8 @@ class ColorClassifier(object):
     def buildLionColors(self, names=None, cropParam=2, sizeParam=10):
         if names is None:
             names = os.listdir("./Train/")
+        if ".gitignore" in names:
+            names.remove(".gitignore")
 
         if self.parellel is True:
             procList = []
