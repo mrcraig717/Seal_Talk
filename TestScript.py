@@ -14,7 +14,7 @@ import os
 
 #######################################################################################################
 #Uncomment below to genSpots
-#Utilities.genSpots(reset=True, parellel=False)
+Utilities.genSpots(reset=True, parellel=False)
 
 ############################################################################################
 ##I beleive the parameter in there current setting will work well for all Images but this Function will
@@ -26,7 +26,7 @@ import os
 ## and adjust some stuff before moving on.
 ################################################################################################
 #Uncomment to check location json
-#Utilities.checkLocJson()
+Utilities.checkLocJson()
 
 ###############################################################################################################
 ##STAGE 2: Generate Color Classifier I have set it to use Logitsic Regression and can change pretty easy to anything esle 
@@ -49,7 +49,7 @@ import os
 
 
 ##Uncomment to generate new classifier
-#Utilities.gencolorclassifier(parellel=False, cropParam=1, sizeParam=10)
+Utilities.gencolorclassifier(parellel=False, cropParam=4, sizeParam=100)
 
 ###############################################################################################################
 # Load the Color Classifier
@@ -76,7 +76,7 @@ else:
 #                           WE can change this but thats what I have been doing so far to generate the bounding Boxes  
 ####################################################################################################
 
-#Uncomment to gen json with all the boundi
+#Uncomment to gen json with all the bounding Boxes
 Utilities.genjson(parellel=False, cropParam=60, colorClassifier=CC)
 
 

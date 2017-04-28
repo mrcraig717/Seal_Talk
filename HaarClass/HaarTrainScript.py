@@ -5,6 +5,7 @@ import numpy as np
 import time
 import sys
 import pickle
+import time
 
 sys.path.append("../")
 from GenTrainImages import ColorMaskGenerator
@@ -23,13 +24,16 @@ nNEGSamples = 0
 
 if 'negimg' in os.listdir("."):
     os.system("rm -r negimg")
-
 os.system("mkdir negimg")
 
 if 'posimg' in os.listdir("."):
     os.system("rm -r posimg")
-
 os.system("mkdir posimg")
+
+if 'cascade' in os.listdir("."):
+	os.system("rm -r cascade")
+os.system("mkdir cascade")
+
 
 fp = open("../SeaLionLoc.json", 'r')
 data = json.load(fp)
@@ -83,7 +87,7 @@ def spotsInSub(name, subImg):
 def genEvenPartitions(name, img):
     global nNEGSamples, nPOSSamples
     imgShape = np.shape(img)
-    print imgShape
+    print("Partitioning Image: " + name)
     for i in xrange(1, imgShape[0] // IMAGEPART, 1):
         Xshift = i * IMAGEPART
         for j in xrange(1, imgShape[1] // IMAGEPART, 1):
@@ -136,5 +140,6 @@ positive = open("sealions.txt", 'w')
 positive.write(finalPos)
 positive.close()
 
-os.system("opencv_createsamples -vec positive_samples.vec -bg bg.txt -info sealions.txt -bgthresh 80 -num " + str(nPOSSamples) + " -h 50 -w 50")
-#os.system("opencv_traincascade -data . -vec positive_samples.vec -bg bg.txt -numPos " + str(nPOSSamples // 40) + " -numNeg " + str(nNEGSamples // 40) + " -h 24 -w 24")   #-minHitRate .9
+os.system("opencv_createsamples -vec positive_samples.vec -bg bg.txt -info sealions.txt -bgthresh 80 -num " + str(nPOSSamples) + " -h 24 -w 24")
+time.sleep(5)
+os.system("opencv_traincascade -data cascade -vec positive_samples.vec -bg bg.txt -numPos " + str(nPOSSamples) + " -numNeg " + str(nNEGSamples) + " -h 24 -w 24")   #-minHitRate .9

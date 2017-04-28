@@ -61,6 +61,7 @@ class ColorClassifier(object):
         else:
             for name in names:
                 img = cv2.imread("./Train/" + name)
+                print("Processing Image: " + name)
                 for key in self.SLL[name].keys():
                     if key != 'pups' and key != 'error':
                         self.addLionColors(img, self.SLL[name][key], cropParam, sizeParam)
