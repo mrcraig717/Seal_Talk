@@ -28,6 +28,7 @@ def gencolorclassifier(parellel=False, cropParam=3, sizeParam=100):
         SLL = json.load(fp)
         fp.close()
     else:
+        print("No SealLionLoc.json existing in current directory")
         return
 
     CC = ColorClassifier(SLL, parellel=parellel)

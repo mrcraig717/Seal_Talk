@@ -77,7 +77,7 @@ class ColorClassifier(object):
 
     def getClassifier(self):
 
-        if self.LionColors is None:
+        if np.shape(self.LionColors)[0] < 2:
             return None
         else:
             classifier = SVC()
@@ -85,7 +85,7 @@ class ColorClassifier(object):
             return classifier
 
     def getLogitClassifier(self):
-        if self.LionColors is None:
+        if np.shape(self.LionColors)[0] < 2:
             return None
         else:
             classifier = seallogit()

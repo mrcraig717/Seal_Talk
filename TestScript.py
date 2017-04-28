@@ -3,6 +3,11 @@ import pickle
 import cv2
 import os
 
+
+if len(os.listdir("./Train/")) < 2:
+	print("There are no Images in the Train Folder If the the TrainDotted Images are not there this thing is gonna crash and burn: I not writing all the flags put the images in the folders as explained in the README")
+
+
 ####GenSpots JSON
 ##########################################################################################33
 ##STAGE 1: Find all the dotts in the TrainDotted Images and classifiy them
@@ -88,6 +93,7 @@ Utilities.genjson(parellel=False, cropParam=60, colorClassifier=CC)
 
 # Params File name
 
-Utilities.genBoxedImage("44.jpg")
+if "44.jpg" in os.listdir("."):
+	Utilities.genBoxedImage("44.jpg")
 
 
