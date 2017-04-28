@@ -56,13 +56,26 @@ class GenJSON(object):
                                 procList[-1].start()
 
                     if procList:
-                        procList[0].join(5)
+                        procList[0].join(3)
                 else:
                     name, BoundBoxs = mpq.get()
                     self.jsonFile[name] = BoundBoxs
 
         else:
-            pass
+            for name in names:
+                print("Generating Boxes for Image: " + name)
+                img = cv2.imread("./Train/" + name)
+                thisImg = {}
+                for key in self.SLL[name].keys():
+                    thisClass = {}
+                    for spot in self.SLL[name][key]:
+                        crop = self.getCrop(img, self.SLL[name][key][spot])
+                        thisClass[spot] = self.retranslate(self.ffLion.genBoundingRectangle(crop))
+
+                    thisImg[key] = thisClass
+                self.jsonFile[name] = thisImg
+
+
         return self.jsonFile
 
     def retranslate(self, subBoundRect):

@@ -62,7 +62,7 @@ class Spots:
                     res = mpq.get()
                     self.jsonL[res[0]] = res[1]
         else:
-            for name in os.listdir("./Train/"):
+            for name in names:
                 print("Processing Image " + name)
                 self.getSpots(name)
         fp = open("SeaLionLoc.json", 'w')

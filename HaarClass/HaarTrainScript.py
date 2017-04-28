@@ -5,6 +5,7 @@ import numpy as np
 import time
 import sys
 import pickle
+
 sys.path.append("../")
 from GenTrainImages import ColorMaskGenerator
 IMAGEPART = 256
@@ -89,6 +90,7 @@ def genEvenPartitions(name, img):
             Yshift = j * IMAGEPART
             spots = spotsInSub(name, [(Xshift - IMAGEPART, Xshift),(Yshift - IMAGEPART, Yshift)])
             subImg =  img[Xshift - IMAGEPART:Xshift, Yshift - IMAGEPART:Yshift].copy()
+            #subImg = cv2.cvtColor(subImg, cv2.COLOR_BGR2GRAY)
             subImg = CMG.getMaskImg(subImg)
             if spots is None:
                 cv2.imwrite("./negimg/" + name.split(".")[0] + str(i) + str(j) + ".jpg", subImg)
@@ -99,10 +101,10 @@ def genEvenPartitions(name, img):
                 cv2.imwrite("./posimg/" + name.split(".")[0] + str(i) + str(j) + ".jpg", subImg)
                 positive.write("posimg/" + name.split(".")[0] + str(i) + str(j) + ".jpg  " + str(len(spots)) + " ")
                 for spot in spots:
-                    positive.write(" " + str(spot[0][0]) + " " + str(spot[0][1]) + " " + str(spot[1][0]) + " " + str(spot[1][1]))
-                    cv2.rectangle(subImg, (spot[0][1] + spot[1][1], spot[0][0] + spot[1][0]), (spot[0][1], spot[0][0]), (255, 0, 0))
-                cv2.imwrite("../TrainBoxed/" + name.split(".")[0] + str(i) + str(j) + ".jpg", subImg)
-                nPOSSamples += 1
+                    positive.write(" " + str(spot[0][1]) + " " + str(spot[0][0]) + " " + str(spot[1][1]) + " " + str(spot[1][0]))
+                    #cv2.rectangle(subImg, (spot[0][1] + spot[1][1], spot[0][0] + spot[1][0]), (spot[0][1], spot[0][0]), 255)
+                    nPOSSamples += 1
+                #cv2.imwrite("../TrainBoxed/" + name.split(".")[0] + str(i) + str(j) + ".jpg", subImg)
             if spots is None:
                 background.write("\n")
             else:
@@ -113,7 +115,9 @@ for key in data.keys():
 	if key != ".gitignore":
 	    img = cv2.imread("../Train/" + key)
 	    genEvenPartitions(key, img)
-        break
+
+#img = cv2.imread("../Train/44.jpg")
+#genEvenPartitions("44.jpg", img)
 
 
 background.close()
@@ -132,5 +136,5 @@ positive = open("sealions.txt", 'w')
 positive.write(finalPos)
 positive.close()
 
-#os.system("opencv_createsamples -vec positive_samples.vec -bg bg.txt -info sealions.txt -num " + str(nPOSSamples))
-#os.system("opencv_traincascade -data . -vec positive_samples.vec -bg bg.txt -numPos " + str(nPOSSamples) + " -numNeg " + str(nNEGSamples))
+os.system("opencv_createsamples -vec positive_samples.vec -bg bg.txt -info sealions.txt -bgthresh 80 -num " + str(nPOSSamples) + " -h 50 -w 50")
+#os.system("opencv_traincascade -data . -vec positive_samples.vec -bg bg.txt -numPos " + str(nPOSSamples // 40) + " -numNeg " + str(nNEGSamples // 40) + " -h 24 -w 24")   #-minHitRate .9

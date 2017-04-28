@@ -51,9 +51,8 @@ def genjson(parellel=False, cropParam=60, colorClassifier=None):
         return
 
     generator = GenJSON(SLL, cropParam=cropParam, colorClassifier=colorClassifier)
-    generator.run(parellel=parellel)
     fp = open("SeaLionB.json", 'w')
-    json.dump(generator.run(), fp)
+    json.dump(generator.run(parellel=parellel), fp)
     fp.close()
     print("Json Dump of the bounding rectangles")
 

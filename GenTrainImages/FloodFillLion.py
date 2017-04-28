@@ -54,7 +54,7 @@ class FillFloodLion(object):
                     if on[1] - 1 < Ymin:
                         Ymin = on[1] - 1
 
-        extendBy = 20
+        extendBy = 15
         if Ymax + extendBy < self.imgShape[1]:
             Ymax += extendBy
         else:
