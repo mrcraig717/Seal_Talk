@@ -22,7 +22,7 @@ class seallogit(LogisticRegression):
         X = np.hstack((X, (X[:, 0] / X[:, 1]).reshape((predictorShape[0], 1)),
                           (X[:, 0] / X[:, 2]).reshape((predictorShape[0], 1)),
                           (X[:, 1] / X[:, 2]).reshape(predictorShape[0], 1)))
-        super(SealLogit, self).fit(X, y)
+        super(seallogit, self).fit(X, y)
 
     def predictP(self, X):
 
