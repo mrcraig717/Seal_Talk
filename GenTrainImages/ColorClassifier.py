@@ -1,5 +1,5 @@
 from sklearn.svm import SVC
-from SealLogit import SealLogit
+from SealLogit import seallogit
 import numpy as np
 import cv2
 import os
@@ -88,7 +88,7 @@ class ColorClassifier(object):
         if self.LionColors is None:
             return None
         else:
-            classifier = SealLogit()
+            classifier = seallogit()
             classifier.fit(self.LionColors[:, :-1], self.LionColors[:, -1:].ravel())
             return classifier
 

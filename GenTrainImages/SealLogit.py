@@ -2,7 +2,7 @@ from sklearn.linear_model import LogisticRegression
 import numpy as np
 
 
-class SealLogit(LogisticRegression):
+class seallogit(LogisticRegression):
 
     def __init__(self):
         super(SealLogit, self).__init__()
@@ -32,7 +32,7 @@ class SealLogit(LogisticRegression):
                           (X[:, 0] / X[:, 2]).reshape((predictorShape[0], 1)),
                           (X[:, 1] / X[:, 2]).reshape(predictorShape[0], 1)))
 
-        if super(SealLogit, self).predict_proba(X)[0] > .4:
+        if super(seallogit, self).predict_proba(X)[0] > .4:
             return 1.0
         else:
             return 0,0
