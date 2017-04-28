@@ -6,7 +6,7 @@ import os
 
 if len(os.listdir("./Train/")) < 2:
 	print("There are no Images in the Train Folder If the the TrainDotted Images are not there this thing is gonna crash and burn: I not writing all the flags put the images in the folders as explained in the README")
-
+	exit()
 
 ####GenSpots JSON
 ##########################################################################################33
@@ -93,7 +93,7 @@ Utilities.genjson(parellel=False, cropParam=60, colorClassifier=CC)
 
 # Params File name
 
-if "44.jpg" in os.listdir("."):
+if "44.jpg" in os.listdir("./Train"):
 	Utilities.genBoxedImage("44.jpg")
 
 
