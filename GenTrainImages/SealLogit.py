@@ -5,7 +5,7 @@ import numpy as np
 class seallogit(LogisticRegression):
 
     def __init__(self):
-        super(SealLogit, self).__init__()
+        super(seallogit, self).__init__()
 
     def predict(self, X):
         predictorShape = np.shape(X)
@@ -14,7 +14,7 @@ class seallogit(LogisticRegression):
                           (X[:, 0] / X[:, 2]).reshape((predictorShape[0], 1)),
                           (X[:, 1] / X[:, 2]).reshape(predictorShape[0], 1)))
         P = []
-        return super(SealLogit, self).predict(X)
+        return super(seallogit, self).predict(X)
 
     def fit(self, X, y, sample_weight=None):
         predictorShape = np.shape(X)
@@ -36,5 +36,5 @@ class seallogit(LogisticRegression):
             return 1.0
         else:
             return 0,0
-        #return super(SealLogit, self).predict_proba(X)[0]
+        return super(seallogit, self).predict_proba(X)[0]
 
