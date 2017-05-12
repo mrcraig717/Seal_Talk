@@ -19,7 +19,7 @@ class ColorClassifier(object):
     def parellelPSpawn(self, name, spots, cropParam, sizeParam, mpq):
 
         print("Processing image: " + name)
-        img = cv2.imread("./MaskedImages/" + name)
+        img = cv2.imread("./Train/" + name)
         totalPos = 0
         for key in spots.keys():
             if key in self.include:
@@ -68,7 +68,7 @@ class ColorClassifier(object):
 
         else:
             for name in names:
-                img = cv2.imread("./MaskedImages/" + name)
+                img = cv2.imread("./Train/" + name)
                 print("Processing Image: " + name)
                 for key in self.SLL[name].keys():
                     if key in self.include:

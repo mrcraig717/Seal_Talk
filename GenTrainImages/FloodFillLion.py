@@ -126,7 +126,7 @@ class FillFloodLion(object):
             else:
                 Xmin = 0
 
-        return img#[(Xmax, Ymax), (Xmin, Ymin)]
+        return [(Xmax, Ymax), (Xmin, Ymin)]
 
 
     def isValidColor(self, color):

@@ -62,6 +62,7 @@ Utilities.genALLBoxedImages()
 ##################################################################################################
 ##Load the last Haar Classifier I trained and run prediction on the files in the Train folder
 ###################################################################################
-
-os.system("python HaarTrainScript.py")
-os.system("python HaarPredict.py")
+os.system("cd HaarClass")
+os.system("python ./HaarClass/HaarTrainScript.py")
+os.system("python ./HaarClass/HaarPredict.py")
+os.system("cd ..")

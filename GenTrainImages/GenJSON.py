@@ -98,7 +98,7 @@ class GenJSON(object):
                     thisClass = {}
                     for spot in self.SLL[name][key]:
                         crop = self.getCrop(img, self.SLL[name][key][spot])
-                        thisClass[spot] = self.retranslate(thisFFLion.genBoundingRectangle(crop))
+                        thisClass[spot] = self.retranslate(thisFFLion.genBoundingRectangle(crop, key))
 
                     thisImg[key] = thisClass
                 self.jsonFile[name] = thisImg

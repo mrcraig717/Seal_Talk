@@ -53,7 +53,7 @@ def genjson(parellel=False, cropParam=60, colorClassifier=None, include = ["adul
         print("No existing file for SeaLionLoc.json in working directory")
         return
 
-    generator = GenJSON(SLL, cropParam=cropParam, colorClassifier=colorClassifier, include = include)
+    generator = GenJSON(SLL, cropParam=cropParam, colorClassifier=None, include = include)
     fp = open("SeaLionB.json", 'w')
     json.dump(generator.run(parellel=parellel), fp)
     fp.close()
