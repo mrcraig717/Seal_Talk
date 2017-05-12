@@ -23,10 +23,15 @@ for Haar Classifier Train not DetectNet. So some of the boxes will be
 very small around the seal these are the ones that got rejected.
 *********************************************************************
 I you then want to see the last Haar Classifier that was Trained
-change directory in to HaarClass and run
-python HaarPredict
-It will run prediction on the two images and dump to results into
+change directory into HaarClass and run
+
+cd HaarClass
+python HaarPredict.py
+
+It will run prediction on the two images and dump the results into
 ./HaarClass/foundBoxed
+The results are bad it finds one sealion in 640.jpg add has a large
+FP number.
 *******************************************************************
 So if you go to the TrainBoxed you will see the Bounding Boxes Produced,
 and if you go to the foundBoxed File you will see the results form 
