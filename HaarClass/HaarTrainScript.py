@@ -6,140 +6,61 @@ import time
 import sys
 import pickle
 import time
-
+from HaarPreProc import HaarPreProc
 sys.path.append("../")
 from GenTrainImages import ColorMaskGenerator
-IMAGEPART = 256
-fp = open("../SeaLionCC.pickle", 'r')
-CC = pickle.load(fp)
-fp.close()
 
-CMG = ColorMaskGenerator.CMG(CC)
-
-background = open("bg.txt", 'w')
-positive = open("sealions.txt" , 'w')
-
-nPOSSamples = 0
-nNEGSamples = 0
-
-if 'negimg' in os.listdir("."):
-    os.system("rm -r negimg")
-os.system("mkdir negimg")
-
-if 'posimg' in os.listdir("."):
-    os.system("rm -r posimg")
-os.system("mkdir posimg")
-
-if 'cascade' in os.listdir("."):
-	os.system("rm -r cascade")
-os.system("mkdir cascade")
+##########################################################################################
+#Script used for train the Haar Classifiers a lot of it commented out and was not 
+# being used at the end when I was trying to get this simpilist version of it working
+#########################################################################################33
+CMG = ColorMaskGenerator.CMG(None)
 
 
-fp = open("../SeaLionLoc.json", 'r')
-data = json.load(fp)
-fp.close()
 
 fp = open("../SeaLionB.json", 'r')
-dataB = json.load(fp)
+BBdata = json.load(fp)
 fp.close()
 
-
-def getBBCrop(BB, subI):
-    if BB[1][0] < subI[0][0]:
-        Xmin = 0
-    else:
-        Xmin = BB[1][0] - subI[0][0] - 1
-    
-    if BB[1][1] < subI[1][0]:
-        Ymin = 0
-    else:
-        Ymin = BB[1][1] - subI[1][0] - 1
-    
-    
-    if BB[0][0] > subI[0][1]:
-        Xmax = IMAGEPART - 1 - Xmin
-    else:
-        Xmax = (BB[0][0] - subI[0][0]) - Xmin
-    
-    if BB[0][1] > subI[1][1]:
-        Ymax = IMAGEPART - 1 - Ymin
-    else:
-	Ymax = (BB[0][1] - subI[1][0]) - Ymin
-    
-    return [(Xmin, Ymin), (Xmax, Ymax)]
+classes = ["adult_males", "adult_females", "subadult_males", "juveniles"]
+#####################3
+########## This section is what is used to generate the files needed for the Haar Classifier
+#HPP = HaarPreProc("../Train/", BBdata, CMG, classes, 1000)
+#nPOSSamples, nNEGSamples = HPP.run()# intenseMean, intenseSTD = HPP.run()
 
 
-def spotsInSub(name, subImg):
-    result = []
-    for key in data[name].keys():
-        if key != 'pups' and key != 'error':
-            for spot in data[name][key].keys():
-                nextS = data[name][key][spot]
-                ####Check to see if the spot is inside our subImg
-                if nextS[0] > subImg[0][0] and nextS[0] < subImg[0][1] and nextS[1] > subImg[1][0] and nextS[1] < subImg[1][1]:
-                    result.append(getBBCrop(dataB[name][key][spot], subImg))
-    if result:
-        return result
-    else:
-        return None
-                      
-
-def genEvenPartitions(name, img):
-    global nNEGSamples, nPOSSamples
-    imgShape = np.shape(img)
-    print("Partitioning Image: " + name)
-    for i in xrange(1, imgShape[0] // IMAGEPART, 1):
-        Xshift = i * IMAGEPART
-        for j in xrange(1, imgShape[1] // IMAGEPART, 1):
-            Yshift = j * IMAGEPART
-            spots = spotsInSub(name, [(Xshift - IMAGEPART, Xshift),(Yshift - IMAGEPART, Yshift)])
-            subImg =  img[Xshift - IMAGEPART:Xshift, Yshift - IMAGEPART:Yshift].copy()
-            #subImg = cv2.cvtColor(subImg, cv2.COLOR_BGR2GRAY)
-            subImg = CMG.getMaskImg(subImg)
-            if spots is None:
-                cv2.imwrite("./negimg/" + name.split(".")[0] + str(i) + str(j) + ".jpg", subImg)
-                background.write("negimg/" + name.split(".")[0] + str(i) + str(j) +".jpg")
-                nNEGSamples += 1
-            else:
-
-                cv2.imwrite("./posimg/" + name.split(".")[0] + str(i) + str(j) + ".jpg", subImg)
-                positive.write("posimg/" + name.split(".")[0] + str(i) + str(j) + ".jpg  " + str(len(spots)) + " ")
-                for spot in spots:
-                    positive.write(" " + str(spot[0][1]) + " " + str(spot[0][0]) + " " + str(spot[1][1]) + " " + str(spot[1][0]))
-                    #cv2.rectangle(subImg, (spot[0][1] + spot[1][1], spot[0][0] + spot[1][0]), (spot[0][1], spot[0][0]), 255)
-                    nPOSSamples += 1
-                #cv2.imwrite("../TrainBoxed/" + name.split(".")[0] + str(i) + str(j) + ".jpg", subImg)
-            if spots is None:
-                background.write("\n")
-            else:
-                positive.write("\n")
-
-for key in data.keys():
-
-	if key != ".gitignore":
-	    img = cv2.imread("../Train/" + key)
-	    genEvenPartitions(key, img)
-
-#img = cv2.imread("../Train/44.jpg")
-#genEvenPartitions("44.jpg", img)
+#fp = open("currentSampleDist.txt", 'w')
+#fp.write("Pos Sample Dist:  " + str(nPOSSamples) + "\n")
+#fp.write("Neg Sample Dist:  " + str(nNEGSamples) + "\n")
+#fp.write("Sample Mean Intensity: " + str(intenseMean) + "\n")
+#fp.write("Sample STD Intensity: " + str(intenseSTD))
+#fp.close()
+#os.system("opencv_createsamples -vec adult_males.vec -bg bg.txt -info adult_males.txt -bgthresh 80 -num 4989 -h 40 -w 40")
+#for classtype in classes:
+#    if nPOSSamples[classes.index(classtype)] != 0:
+#        os.system("opencv_createsamples -vec " + classtype + ".vec -bg bg.txt -info " + classtype + ".txt -bgthresh 10 -num " + str(nPOSSamples[classes.index(classtype)]) + " -h 40 -w 40")
+#####################################33
 
 
-background.close()
-background = open("bg.txt", 'r')
-finalBack = background.read()[:-1]
-background.close()
-background = open("bg.txt", 'w')
-background.write(finalBack)
-background.close()
 
-positive.close()
-positive = open("sealions.txt", 'r')
-finalPos = positive.read()[:-1]
-positive.close()
-positive = open("sealions.txt", 'w')
-positive.write(finalPos)
-positive.close()
+#if 'AMcascade' in os.listdir("."):
+#    os.system("rm -r AMcascade")
+#os.system("mkdir AMcascade")
+# if 'AFcascade' in os.listdir("."):
+# 	os.system("rm -r AFcascade")
+# os.system("mkdir AFcascade")
+#if 'SAMcascade' in os.listdir("."):
+#   os.system("rm -r SAMcascade")
+#os.system("mkdir SAMcascade")
+# if 'Jcascade' in os.listdir("."):
+#     os.system("rm -r Jcascade")
+# os.system("mkdir Jcascade")
 
-os.system("opencv_createsamples -vec positive_samples.vec -bg bg.txt -info sealions.txt -bgthresh 80 -num " + str(nPOSSamples) + " -h 24 -w 24")
-time.sleep(5)
-os.system("opencv_traincascade -data cascade -vec positive_samples.vec -bg bg.txt -numPos " + str(nPOSSamples) + " -numNeg " + str(nNEGSamples) + " -h 24 -w 24")   #-minHitRate .9
+# ####### adult_male Train Command
+os.system("opencv_traincascade -data AMcascade -vec adult_males.vec -bg bg.txt -numStages 20 -minHitRate .92 -maxFalseAlarmRate .5 -numPos 249 -numNeg 300 -maxDepth 1 -h 40 -w 40")
+# ####### adult_female Train Command
+#os.system("opencv_traincascade -data AFcascade -vec adult_females.vec -bg bg.txt -numStages 6 -minHitRate .90 -maxFalseAlarmRate .4 -featuretype LBP -numPos 100 -numNeg 150 -h 40 -w 40")
+# #######subadult_males Train Command
+#os.system("opencv_traincascade -data SAMcascade -vec subadult_males.vec -bg bg.txt -numStages 6 -minHitRate .99 -maxFalseAlarmRate .5 -numPos 200 -numNeg 200 -h 24 -w 36")
+# ######Juvinile Train Command
+# os.system("opencv_traincascade -data Jcascade -vec juveniles.vec -bg bg.txt -numStages 6 -minHitRate .90 -maxFalseAlarmRate .4 -numPos 110 -numNeg 150 -h 40 -w 40")

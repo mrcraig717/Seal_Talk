@@ -1,39 +1,91 @@
 I build the directory structure like so.............
-./Train ########Is where the Train Images have to go I didn't want to put a thousand flags for which path to find them
-./TrainDotted ############Train dotted Images
-./TestTrain  ######## I but this directory here so you can pull off some of the Train Images for validation
-./TestTrainDotted ########## Same images as in TestTrain but the Dotted version.
-./Test  ####### Put the actual Test images from Kaggle here
-./TrainBoxed  #### This folder was put here so we would have some where to dump images 
-		   if you want to visually inspect what the bounding box procedure returned 
-		   See the TestScript.py at the very bottom shows how to generate these
-./GenTrainImages #######This is where I put all the code that is called from TestScript.py Ideally Craig will deal with it there is no comments in it
-			See TestScript.py for instruction on untilizing what I wrote lots of comments and instructions there
+./Train 	Is where the Train Images have to be.
+./TrainDotted   Train dotted Images, needed a dotted image for every train
+./TestTrain  	Images pulled off Training for cross validation
+./TestTrainDotted Cross validation Dotted Images 
+./Test  	Here for the Final Test Images
+./TrainBoxed    Images dumped here with bounding boxes drawn 
+                once the BB's are generated
+./GenTrainImages Here in lie most of the code used for generating
+                 the bounding boxes and classifiying the Dots.
 
-The TestScript and its functions will drop json and pickle files in the main directory so when you run each stage as laid out
-in the comments of the TestScript.py file you will find new files don't delete them unless you want to run it all over again
+./HaarClass	This is where all the code for the Haar Classifier is located
 
-Stages for generating final JSON with bounding Boxes
-Stage1: Locate and Classifiy all the spots. This ends up taking much more time then any other stage.
-		###We should only have to run "hopefully" once then there will be a json file dropped in the directory
-		   and we won't have to run it again
+I decided to push two images up the git with the code.
 
-Stage1.1: I wrote something that will give some measure on how well the BlobDetector worked arcoss the whole training set see TestScript.py Comments
+TestScript.py will run the process full cycle on these two images.
+Find and classifiy the dots.
+Print out the RMSE compared to train.csv
+Generate the Bounding boxes and draw them and place them
+in the TrainBoxed Folder.
+The is will load the last Haar Classifier I trained and run the
+prediction process placing the result is folder
+./HaarClass/foundBoxed
+So if you go to the TrainBoxed you will see the Bounding Boxes Produced,
+and if you go to the foundBoxed File you will see the results form 
+the Haar Classifier
+****Warning**** This was build to run with a python interpreter that
+has the working directory as the base of this repo so it can find everything.  
+Also as the porcess proceeds there will assored file dumped in to
+the directory don't delete them unless you want to start the process
+over. If you do start over the files will be deleted and replaced.
 
-			Note: on the whole 900 some images this is gonna take about 4 hours.
-				I currently have the parreleization at 4 processes depending on the server len we might be
-				able to bump this to 8. If its a windows based system I suggest passing parellel=False
-				last I checked the python multiprocessing package doesn't work on Windows. (It was a couple years ago.)
-
-Stage2: Gen Color Classifier
-	See TestScript for more info.... I think we should use the existing in SeaLoinCC.pickle first then go from there
-
-Stage3: Gen the final bounding Boxes.
-	See TestScript Comments
+command: python TestScript.py
 
 
-Extra Utilitites.... See bottom of Testscript.py
- 
+CONTENTS of ./GenTrainImages
+
+./GenTrainImages/Utilities.py
+{Collection of functions performing assorted tasks}
+./GenTrainImages/BlobDetector.py
+{Is a class that is a pure python blob detector custom
+built for the task at hand.}
+./GenTrainImages/ColorClassifier.py
+{This is class that handles extracting the colors for classification,
+and selecting the negative samples}
+./GenTrainImages/ColorMaskGenerator.py
+{This is a class used by the code in the HaarClass folder}
+./GenTrainImages/FloodFillLion.py
+{This is class that is used for running the FloodFill algo}
+./GenTrainImages/PartitionImage.py
+{This is class that used to Partition and translate the Bounding
+Boxes for Detect Net}
+./GenTrainImages/GenJSON.py
+{This is a class that is used to generate all bounding boxes}
+./GenTrainImages/SeaLionLocations.py
+{This is a class that is used for dot locating and classifiying}
+./GenTrainImages/SeaLogit.py
+{This is a class that inherits sklearns Logistic Regression Class,
+and reimplements the fit and predict functions for our purposes}
+
+
+
+
+CONTENTS of ./HaarClass
+Folders
+./HaarClass/negimg {this is folder for holding negitive samples,
+created in the Haar Train Script}
+./HaarClass/posimg {this is a folder for holding the color transformed
+images generated by the Haar Train Script}
+*********If you don't see these folders they will be created when running the scripts
+**************************Warning*****************************
+The scripts below also delete existing folders with classifiers in them if they exist
+
+
+./HaarClass/HaarPreProc.py
+{this is class that many tasks need to prep files and that Images,
+for the Haar Classifier provided by opencv.}
+./HaarClass/HaarPredictProc.py
+{This is a class that used manage the using the HaarClassfier to run
+prediction on a whole image, dumps results to ./HaarClass/foundBoxed}
+./HaarClass/HaarTrainScript.py
+{This is a script ment to be run from the command line to train the Haar
+Classifier}
+./HaarClass/HaarPredict.py
+{this is a script ment to be run from the command line to run the 
+Haar Prediction}
+
+
 
 
 

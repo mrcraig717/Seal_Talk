@@ -35,7 +35,7 @@ class BlobDetector(object):
                 if on[1] - 1 >= 0 and img[on[0]][on[1] - 1] != 100:
                     Queue.append((on[0], on[1] - 1))
 
-        if len(inBlob) > self.threshold:
+        if len(inBlob) > self.threshold and len(inBlob) < self.threshold + 100:
             self.blobs.append(self.getCentroid(inBlob))
         return img
 
