@@ -18,15 +18,19 @@ Find and classifiy the dots.
 Print out the RMSE compared to train.csv
 Generate the Bounding boxes and draw them and place them
 in the TrainBoxed Folder.
-The is will load the last Haar Classifier I trained and run the
-prediction process placing the result is folder
+
+I you then want to see the last Haar Classifier that was Trained
+change directory in to HaarClass and run
+python HaarPredict
+I will run prediction on the two images and dump to results into
 ./HaarClass/foundBoxed
+
 So if you go to the TrainBoxed you will see the Bounding Boxes Produced,
 and if you go to the foundBoxed File you will see the results form 
 the Haar Classifier
 ****Warning**** This was build to run with a python interpreter that
 has the working directory as the base of this repo so it can find everything.  
-Also as the porcess proceeds there will assored file dumped in to
+Also as the process proceeds there will assorted files dumped into
 the directory don't delete them unless you want to start the process
 over. If you do start over the files will be deleted and replaced.
 
