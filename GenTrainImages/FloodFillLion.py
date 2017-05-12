@@ -66,7 +66,7 @@ class FillFloodLion(object):
                 if totalFound < 50:
                     maxQueueSize = len(nextQueue)
         
-        if (Xmax - Xmin > 40 or Ymax - Ymin > 40) and (classtype == 'subadult_males' or classtype == 'adult_males') and (Xmax - Xmin < 80 and Ymax - Ymin < 80):
+        if (Xmax - Xmin > 40 or Ymax - Ymin > 40) and (classtype == 'subadult_males' or classtype == 'adult_males'):
 
             extendBy = 10
             if Ymax + extendBy < self.imgShape[1]:
@@ -86,7 +86,7 @@ class FillFloodLion(object):
                 Xmin -= extendBy
             else:
                 Xmin = 0
-        elif (Xmax - Xmin > 20 or Ymax - Ymin > 20) and (classtype == 'adult_females' or classtype == 'juveniles') and (Xmax - Xmin < 60 and Ymax - Ymin < 60): 
+        elif (Xmax - Xmin > 20 or Ymax - Ymin > 20) and (classtype == 'adult_females' or classtype == 'juveniles'): 
             extendBy = 5
             if Ymax + extendBy < self.imgShape[1]:
                 Ymax += extendBy
